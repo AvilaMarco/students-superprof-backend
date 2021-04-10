@@ -13,6 +13,7 @@ public class Student implements Serializable {
 
     @Id
     private String id;
+    private String name;
     private Long cellphone;
     private String email;
     private String drive;
@@ -22,6 +23,10 @@ public class Student implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setCellphone(Long cellphone) {
@@ -43,6 +48,7 @@ public class Student implements Serializable {
     public Map<String, Object> studentDTO(){
         Map<String, Object> dto = new HashMap<>();
         dto.put("id", id);
+        dto.put("name", name);
         dto.put("cellphone", cellphone);
         dto.put("email", email);
         dto.put("drive", drive);

@@ -13,12 +13,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-//@CrossOrigin("")
+@CrossOrigin("https://code-block-academy.netlify.app/")
 @RequestMapping("/student")
 public class UserController {
-    //Repository
-    @Autowired
-    StudentRepository studentRepository;
+
+    final StudentRepository studentRepository;
+
+    public UserController(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     /* Create */
     @PostMapping("/create")
@@ -45,6 +48,11 @@ public class UserController {
     /* Update */
 
     /* Delete */
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Map<String, Object>> deleteStudent(@PathVariable String id){
+        studentRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     /* Functions Aux */
     private Map<String, Object> msgError(String msg){
