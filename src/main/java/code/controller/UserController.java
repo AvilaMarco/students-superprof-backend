@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "https://code-block-academy.netlify.app")
+@CrossOrigin(origins = {"https://code-block-academy.netlify.app", "http://localhost:3000"})
 @RequestMapping("/student")
 public class UserController {
 
@@ -27,7 +27,30 @@ public class UserController {
     /* Create */
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> createStudent(@RequestBody Student student){
-        return new ResponseEntity<>(studentRepository.save(student).studentDTO(), HttpStatus.CREATED);
+        studentRepository.save(student);
+        return new ResponseEntity<>(msg("User Create"), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/student/{id}/add-resource")
+    public ResponseEntity<Map<String, Object>> addResource(@PathVariable String id, Map<String, Object> resource){
+        Student student = studentRepository.findById(id).orElse(null);
+        if (student != null){
+            student.addResource(resource);
+            return new ResponseEntity<>(msg("Added Resource"), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(msg("Some Problem"), HttpStatus.I_AM_A_TEAPOT);
+        }
+    }
+
+    @PostMapping("/student/{id}/add-content")
+    public ResponseEntity<Map<String, Object>> addContent(@PathVariable String id, Map<String, Object> content){
+        Student student = studentRepository.findById(id).orElse(null);
+        if (student != null){
+            student.addContent(content);
+            return new ResponseEntity<>(msg("Added content"), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(msg("Some Problem"), HttpStatus.I_AM_A_TEAPOT);
+        }
     }
 
     /* Read */
@@ -42,7 +65,7 @@ public class UserController {
         if (student != null){
             return new ResponseEntity<>(student.studentCompleteDTO(), HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(msgError("Student does not exist"), HttpStatus.I_AM_A_TEAPOT);
+            return new ResponseEntity<>(msg("Student does not exist"), HttpStatus.I_AM_A_TEAPOT);
         }
     }
 
@@ -52,13 +75,13 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Map<String, Object>> deleteStudent(@PathVariable String id){
         studentRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok(msg("User Delete"));
     }
 
     /* Functions Aux */
-    private Map<String, Object> msgError(String msg){
-        Map<String, Object> msgError = new HashMap<>();
-        msgError.put("error", msg);
-        return msgError;
+    private Map<String, Object> msg(String msg){
+        Map<String, Object> message = new HashMap<>();
+        message.put("msg", msg);
+        return message;
     }
 }

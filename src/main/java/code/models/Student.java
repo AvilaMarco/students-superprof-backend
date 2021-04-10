@@ -57,6 +57,14 @@ public class Student implements Serializable {
         this.content = content != null ? content : new ArrayList<>();;
     }
 
+    public void addResource(Map<String, Object> resource){
+        this.resources.add(resource);
+    }
+
+    public void addContent(Map<String, Object> content){
+        this.content.add(content);
+    }
+
     public Map<String, Object> studentDTO(){
         Map<String, Object> dto = new HashMap<>();
         dto.put("id", id);
@@ -69,12 +77,7 @@ public class Student implements Serializable {
     }
 
     public Map<String, Object> studentCompleteDTO(){
-        Map<String, Object> dto = new HashMap<>();
-        dto.put("id", id);
-        dto.put("cellphone", cellphone);
-        dto.put("email", email);
-        dto.put("drive", drive);
-        dto.put("meet", meet);
+        Map<String, Object> dto = studentDTO();
         dto.put("resources", resources);
         dto.put("content", content);
         return dto;
