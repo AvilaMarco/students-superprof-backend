@@ -5,7 +5,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Document(collection = "students")
@@ -18,6 +20,8 @@ public class Student implements Serializable {
     private String email;
     private String drive;
     private String meet;
+    private List<Map<String, Object>> resources;
+    private List<Map<String, Object>> content;
 
     public Student (){}
 
@@ -45,6 +49,14 @@ public class Student implements Serializable {
         this.meet = meet;
     }
 
+    public void setResources(List<Map<String, Object>> resources) {
+        this.resources = resources != null ? resources : new ArrayList<>();
+    }
+
+    public void setContent(List<Map<String, Object>> content) {
+        this.content = content != null ? content : new ArrayList<>();;
+    }
+
     public Map<String, Object> studentDTO(){
         Map<String, Object> dto = new HashMap<>();
         dto.put("id", id);
@@ -63,6 +75,8 @@ public class Student implements Serializable {
         dto.put("email", email);
         dto.put("drive", drive);
         dto.put("meet", meet);
+        dto.put("resources", resources);
+        dto.put("content", content);
         return dto;
     }
 }

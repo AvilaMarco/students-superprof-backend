@@ -13,12 +13,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin("https://code-block-academy.netlify.app/")
+@CrossOrigin(origins = "https://code-block-academy.netlify.app")
 @RequestMapping("/student")
 public class UserController {
 
     final StudentRepository studentRepository;
 
+    @Autowired
     public UserController(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
